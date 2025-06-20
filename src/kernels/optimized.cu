@@ -66,7 +66,7 @@ processFromSmem(float *regM, float *regN, float *threadResults, const float *As,
 template <const int BM, const int BN, const int BK, const int WM, const int WN,
           const int WNITER, const int TM, const int TN, const int NUM_THREADS>
 __global__ void __launch_bounds__(NUM_THREADS)
-    sgemmWarptiling(int M, int N, int K, float alpha, float *A, float *B,
+    sgemm_optimized(int M, int N, int K, float alpha, float *A, float *B,
                     float beta, float *C) {
   const uint cRow = blockIdx.y;
   const uint cCol = blockIdx.x;
@@ -130,7 +130,7 @@ __global__ void __launch_bounds__(NUM_THREADS)
   }
 }
 
-void run_sgemm_warptiling(int M, int N, int K, float alpha, float beta, float *A, float *B, float *C) {
+void run_sgemm_optimized(int M, int N, int K, float alpha, float beta, float *A, float *B, float *C) {
   const uint NUM_THREADS = 128;
   const uint BN = 128;
   const uint BM = 128;
@@ -142,5 +142,5 @@ void run_sgemm_warptiling(int M, int N, int K, float alpha, float beta, float *A
   const uint TM = 8;
   dim3 blockDim(NUM_THREADS);
   dim3 gridDim(CEIL_DIV(N, BN), CEIL_DIV(M, BM));
-  sgemmWarptiling<BM, BN, BK, WM, WN, WNITER, TM, TN, NUM_THREADS><<<gridDim, blockDim>>>(M, N, K, alpha, A, B, beta, C);
+  sgemm_optimized<BM, BN, BK, WM, WN, WNITER, TM, TN, NUM_THREADS><<<gridDim, blockDim>>>(M, N, K, alpha, A, B, beta, C);
 }
