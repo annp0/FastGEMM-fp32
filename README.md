@@ -32,3 +32,5 @@ This will compile the code and execute the benchmark.
 - Resolving bank conflicts within each warp.
 - Double buffering to further hide memory latency.
 
+Special Thanks to Simon Boehm, for the blog post on MatMul. 
+
