@@ -24,7 +24,7 @@ This will compile the code and execute the benchmark.
 
 - Tiling on all levels (blocks, warps, threads). Each level of tiling helps to improve memory access patterns, allows for better cache, increases arithmetic intensity (the unoptimized version was mainly memory-bound), and hides memory latency (with scheduling).
 - Within each blocktile, values are vector-loaded into shared memory with `float4` (128b loads) in parallel.
-- Within each warptile, its threads' memory accesses to shared memory are also coalesced (which leads to 128b loads as well).
+- Within each warptile, its threads' memory accesses to shared memory are vectorized.
 - For each thread, we adjust the loop structure to increase value reuse on the register file and reduce memory accesses.
 
 ## Other Possible Optimizations
